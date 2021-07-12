@@ -27,6 +27,7 @@ Node* ListAddStart(List* list, int data);
 Node* ListAddAfter(List* list, int data, int num_after);
 Node* DeleteListHead(List* list);
 Node* DeleteListEnd(List* list);
+Node* DeleteListData(List* list, int data);
 List* DeleteList(List* list);
 Node* FindNode(List* list, int data);
 void PrintList(List* list);
@@ -69,6 +70,7 @@ int main()
 
     list->head = DeleteListHead(list);
     DeleteListEnd(list);
+    list->head = DeleteListData(list, 2);
 
     PrintList(list);
     printf("List end: %d\n", list->end->data);
@@ -247,6 +249,38 @@ Node* DeleteListEnd(List* list)
     return list->head;
 }
 
+Node* DeleteListData(List* list, int data)
+{
+    if (FindNode(list, data) == NULL)
+    {
+        return NULL;
+    }
+
+    Node* tmp_node = list->head;
+    Node* previous_tmp_node = tmp_node;
+
+    if (data == list->head->data)
+    {
+        list->head = DeleteListHead(list);
+    }
+    else if (data == list->end->data)
+    {
+        DeleteListEnd(list);
+    }
+    else
+    {
+        while (tmp_node->data != data)
+        {
+            previous_tmp_node = tmp_node;
+            tmp_node = tmp_node->next;
+        }
+        previous_tmp_node->next = tmp_node->next;
+        free(tmp_node);
+        list->size--;
+    }
+    return list->head;
+}
+
 List* DeleteList(List* list)
 {
     while (list->size != 0)
@@ -269,11 +303,11 @@ Node* FindNode(List* list, int data)
 
     while (tmp_ptr->next != NULL)
     {
-        tmp_ptr = tmp_ptr->next;
         if (tmp_ptr->data == data)
         {
             return tmp_ptr;
         }
+        tmp_ptr = tmp_ptr->next;
     }
     return NULL;
 }
