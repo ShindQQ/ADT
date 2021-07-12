@@ -167,7 +167,7 @@ Node* ListAddAfter(List* list, int data, int num_after)
     new_node->data = data;
 
     Node* tmp_ptr = list->head;
-    Node* tmp_previous_ptr = tmp_ptr;
+    Node* previous_tmp_node = tmp_ptr;
 
     int check = 0;
     int check_end = 0;
@@ -183,18 +183,18 @@ Node* ListAddAfter(List* list, int data, int num_after)
             check = 1;
         }
 
-        tmp_previous_ptr = tmp_ptr;
+        previous_tmp_node = tmp_ptr;
         tmp_ptr = tmp_ptr->next;
 
         if (!tmp_ptr)
         {
             break;
         }
-    } while (tmp_previous_ptr->data != num_after && tmp_ptr);
+    } while (previous_tmp_node->data != num_after && tmp_ptr);
 
     if (check == 1)
     {
-        tmp_previous_ptr->next = new_node;
+        previous_tmp_node->next = new_node;
         new_node->next = tmp_ptr;
 
         list->size++;
@@ -228,10 +228,10 @@ Node* DeleteListEnd(List* list)
     }
 
     Node* tmp_ptr = list->head;
-    Node* tmp_previous_ptr = tmp_ptr;
+    Node* previous_tmp_node = tmp_ptr;
     do
     {
-        tmp_previous_ptr = tmp_ptr;
+        previous_tmp_node = tmp_ptr;
         tmp_ptr = tmp_ptr->next;
 
         if (!tmp_ptr)
@@ -240,11 +240,11 @@ Node* DeleteListEnd(List* list)
         }
     } while (tmp_ptr->next != NULL);
 
-    tmp_previous_ptr->next = NULL;
+    previous_tmp_node->next = NULL;
     free(tmp_ptr);
 
     list->size--;
-    list->end = tmp_previous_ptr;
+    list->end = previous_tmp_node;
 
     return list->head;
 }

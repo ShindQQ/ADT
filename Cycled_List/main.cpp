@@ -181,10 +181,10 @@ Node* DeleteListEnd(List* list)
 	}
 
 	Node* tmp_ptr = list->head;
-	Node* tmp_previous_ptr = tmp_ptr;
+	Node* previous_tmp_node = tmp_ptr;
 	do
 	{
-		tmp_previous_ptr = tmp_ptr;
+		previous_tmp_node = tmp_ptr;
 		tmp_ptr = tmp_ptr->next;
 
 		if (!tmp_ptr)
@@ -193,11 +193,11 @@ Node* DeleteListEnd(List* list)
 		}
 	} while (tmp_ptr->next != list->head);
 
-	tmp_previous_ptr->next = list->head;
+	previous_tmp_node->next = list->head;
 	free(tmp_ptr);
 
 	list->size--;
-	list->end = tmp_previous_ptr;
+	list->end = previous_tmp_node;
 
 	return list->head;
 }
