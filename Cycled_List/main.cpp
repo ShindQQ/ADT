@@ -21,60 +21,62 @@ struct List
 	Node* end;
 };
 
-List* CreateList(int data);
-Node* AddNode(List* list, int data);
-Node* AddInList(List* list, int data, int position);
-Node* DeleteListHead(List* list);
-Node* DeleteListEnd(List* list);
-Node* DeleteListData(List* list, int data);
-List* DeleteList(List* list);
-Node* FindNode(List* list, int data);
-void PrintList(List* list);
-int ListLength(List* list);
+List* createList(int data);
+Node* addNode(List* list, int data);
+Node* addInList(List* list, int data, int position);
+Node* deleteListHead(List* list);
+Node* deleteListEnd(List* list);
+Node* deleteListData(List* list, int data);
+List* deleteList(List* list);
+Node* findNode(List* list, int data);
+void printList(List* list);
+int listLength(List* list);
+bool checkListExist(List* list);
 
 int main()
 {
 	List* list = NULL;
-	list = CreateList(0);
+	list = createList(0);
 
-	AddNode(list, 1);
-	PrintList(list);
+	addNode(list, 1);
+	printList(list);
 	printf("List end: %d\n", list->end->data);
-	printf("Size of list: %d, Function size of list: %d;\n", list->size, ListLength(list));
+	printf("Size of list: %d, Function size of list: %d;\n", list->size, listLength(list));
 	puts("");
 
-	AddNode(list, 2);
-	AddNode(list, 20);
-	PrintList(list);
+	addNode(list, 2);
+	addNode(list, 20);
+	printList(list);
 	printf("List end: %d\n", list->end->data);
-	printf("Size of list: %d, Function size of list: %d;\n", list->size, ListLength(list));
+	printf("Size of list: %d, Function size of list: %d;\n", list->size, listLength(list));
 	puts("");
 
-	printf("Find node with data 2: %p, Find node with data -100: %p\n", FindNode(list, 2), FindNode(list, -100));
+	printf("Find node with data 2: %p, Find node with data -100: %p\n", findNode(list, 2), findNode(list, -100));
 	puts("");
 
-	AddInList(list, 3, 3);
-	PrintList(list);
+	addInList(list, 3, 3);
+	printList(list);
 	printf("List end: %d\n", list->end->data);
-	printf("Size of list: %d, Function size of list: %d;\n", list->size, ListLength(list));
+	printf("Size of list: %d, Function size of list: %d;\n", list->size, listLength(list));
 	puts("");
 
-	list->head = DeleteListHead(list);
-	PrintList(list);
+	list->head = deleteListHead(list);
+	printList(list);
 	printf("List end: %d\n", list->end->data);
-	printf("Size of list: %d, Function size of list: %d;\n", list->size, ListLength(list));
+	printf("Size of list: %d, Function size of list: %d;\n", list->size, listLength(list));
 	puts("");
 
-	DeleteListEnd(list);
-	list->head = DeleteListData(list, 2);
+	deleteListEnd(list);
+	list->head = deleteListData(list, 2);
 
-	PrintList(list);
+	printList(list);
 	printf("List end: %d\n", list->end->data);
-	printf("Size of list: %d, Function size of list: %d;\n", list->size, ListLength(list));
+	printf("Size of list: %d, Function size of list: %d;\n", list->size, listLength(list));
 	puts("");
-
-	list = DeleteList(list);
-	PrintList(list);
+	list->head = deleteListHead(list);
+	list->head = deleteListHead(list);
+	list = deleteList(list);
+	printList(list);
 	if (list != NULL)
 	{
 		printf("%d %d", list->head, list->size); // error beacause of unexisting of List
@@ -83,7 +85,7 @@ int main()
 	return 0;
 }
 
-List* CreateList(int data)
+List* createList(int data)
 {
 	List* new_list = (List*)malloc(sizeof(List));
 	if (!new_list)
@@ -109,8 +111,13 @@ List* CreateList(int data)
 	return new_list;
 }
 
-Node* AddNode(List* list, int data)
+Node* addNode(List* list, int data)
 {
+	if (checkListExist(list))
+	{
+		return NULL;
+	}
+
 	Node* new_node = (Node*)malloc(sizeof(Node));
 	if (!new_node)
 	{
@@ -130,8 +137,13 @@ Node* AddNode(List* list, int data)
 	return new_node;
 }
 
-Node* AddInList(List* list, int data, int position)
+Node* addInList(List* list, int data, int position)
 {
+	if (checkListExist(list))
+	{
+		return NULL;
+	}
+
 	Node* new_node = (Node*)malloc(sizeof(Node));
 	if (!new_node)
 	{
@@ -159,9 +171,9 @@ Node* AddInList(List* list, int data, int position)
 	return new_node;
 }
 
-Node* DeleteListHead(List* list)
+Node* deleteListHead(List* list)
 {
-	if (list->head == NULL)
+	if (checkListExist(list) || list->size == 0)
 	{
 		return NULL;
 	}
@@ -173,9 +185,9 @@ Node* DeleteListHead(List* list)
 	return tmp_head;
 }
 
-Node* DeleteListEnd(List* list)
+Node* deleteListEnd(List* list)
 {
-	if (list->head == NULL)
+	if (checkListExist(list) || list->size == 0)
 	{
 		return NULL;
 	}
@@ -202,9 +214,13 @@ Node* DeleteListEnd(List* list)
 	return list->head;
 }
 
-Node* DeleteListData(List* list, int data)
+Node* deleteListData(List* list, int data)
 {
-	if (FindNode(list, data) == NULL)
+	if (checkListExist(list) || list->size == 0)
+	{
+		return NULL;
+	}
+	else if (findNode(list, data) == NULL)
 	{
 		return NULL;
 	}
@@ -214,11 +230,11 @@ Node* DeleteListData(List* list, int data)
 
 	if (data == list->head->data)
 	{
-		list->head = DeleteListHead(list);
+		list->head = deleteListHead(list);
 	}
 	else if (data == list->end->data)
 	{
-		DeleteListEnd(list);
+		deleteListEnd(list);
 	}
 	else
 	{
@@ -234,20 +250,25 @@ Node* DeleteListData(List* list, int data)
 	return list->head;
 }
 
-List* DeleteList(List* list)
+List* deleteList(List* list)
 {
+	if (checkListExist(list))
+	{
+		return NULL;
+	}
+
 	while (list->size != 0)
 	{
-		list->head = DeleteListEnd(list);
+		list->head = deleteListEnd(list);
 	}
 	free(list);
 
 	return NULL;
 }
 
-Node* FindNode(List* list, int data)
+Node* findNode(List* list, int data)
 {
-	if (list->head == NULL)
+	if (checkListExist(list))
 	{
 		return NULL;
 	}
@@ -265,9 +286,9 @@ Node* FindNode(List* list, int data)
 	return NULL;
 }
 
-void PrintList(List* list)
+void printList(List* list)
 {
-	if (list == NULL)
+	if (checkListExist(list))
 	{
 		return;
 	}
@@ -281,9 +302,9 @@ void PrintList(List* list)
 	} while (printed != list->head);
 }
 
-int ListLength(List* list)
+int listLength(List* list)
 {
-	if (list == NULL)
+	if (checkListExist(list))
 	{
 		return -1;
 	}
@@ -298,4 +319,16 @@ int ListLength(List* list)
 	} while (tmp_ptr != list->head);
 
 	return count;
+}
+
+bool checkListExist(List* list)
+{
+	if (list == NULL)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
 }

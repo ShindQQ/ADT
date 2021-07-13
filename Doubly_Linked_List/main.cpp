@@ -22,58 +22,59 @@ struct List
     Node* end;
 };
 
-List* CreateList(int data);
-Node* ListAddEnd(List* list, int data);
-Node* ListAddStart(List* list, int data);
-Node* ListAddAfter(List* list, int data, int num_after);
-Node* DeleteListEnd(List* list);
-Node* DeleteListHead(List* list);
-Node* DeleteListData(List* list, int data);
-List* DeleteList(List* list);
-Node* FindNode(List* list, int data);
-void PrintList(List* list);
-int ListLength(List* list);
+List* createList(int data);
+Node* listAddEnd(List* list, int data);
+Node* listAddStart(List* list, int data);
+Node* listAddAfter(List* list, int data, int num_after);
+Node* deleteListEnd(List* list);
+Node* deleteListHead(List* list);
+Node* deleteListData(List* list, int data);
+List* deleteList(List* list);
+Node* findNode(List* list, int data);
+void printList(List* list);
+int listLength(List* list);
+bool checkListExist(List* list);
 
 int main()
 {
     List* list = NULL;
-    list = CreateList(0);
+    list = createList(0);
 
-    ListAddEnd(list, 1);
-    PrintList(list);
+    listAddEnd(list, 1);
+    printList(list);
     printf("List end: %d\n", list->end->data);
     puts("");
 
-    ListAddEnd(list, 2);
-    PrintList(list);
+    listAddEnd(list, 2);
+    printList(list);
     printf("List end: %d\n", list->end->data);
     puts("");
 
-    ListAddAfter(list, 20, 2);
-    ListAddEnd(list, 200);
-    PrintList(list);
+    listAddAfter(list, 20, 2);
+    listAddEnd(list, 200);
+    printList(list);
     printf("List end: %d\n", list->end->data);
     puts("");
 
-    list->head = ListAddStart(list, 10);
-    PrintList(list);
+    list->head = listAddStart(list, 10);
+    printList(list);
     printf("List end: %d\n", list->end->data);
-    printf("Size of list: %d, Function size of list: %d;\n", list->size, ListLength(list));
+    printf("Size of list: %d, Function size of list: %d;\n", list->size, listLength(list));
     puts("");
 
-    DeleteListEnd(list);
-    list->head = DeleteListHead(list);
-    list->head = DeleteListData(list, 1);
+    deleteListEnd(list);
+    list->head = deleteListHead(list);
+    list->head = deleteListData(list, 1);
 
-    PrintList(list);
+    printList(list);
     printf("List end: %d\n", list->end->data);
-    printf("Size of list: %d, Function size of list: %d;\n", list->size, ListLength(list));
+    printf("Size of list: %d, Function size of list: %d;\n", list->size, listLength(list));
     puts("");
 
-    printf("Find node with data 1: %p, Find node with data -100: %p\n", FindNode(list, 1), FindNode(list, -100));
+    printf("Find node with data 20: %p, Find node with data -100: %p\n", findNode(list, 20), findNode(list, -100));
 
-    list = DeleteList(list);
-    PrintList(list);
+    list = deleteList(list);
+    printList(list);
     if (list != NULL)
     {
         printf("%d %d", list->head, list->size); // error beacause of unexisting of List
@@ -81,7 +82,7 @@ int main()
     return 0;
 }
 
-List* CreateList(int data)
+List* createList(int data)
 {
     List* new_list = (List*)malloc(sizeof(List));
     if (!new_list)
@@ -107,8 +108,13 @@ List* CreateList(int data)
     return new_list;
 }
 
-Node* ListAddEnd(List* list, int data)
+Node* listAddEnd(List* list, int data)
 {
+    if (checkListExist(list))
+    {
+        return NULL;
+    }
+
     Node* new_node = (Node*)malloc(sizeof(Node));
     if (!new_node)
     {
@@ -133,8 +139,13 @@ Node* ListAddEnd(List* list, int data)
     return new_node;
 }
 
-Node* ListAddStart(List* list, int data)
+Node* listAddStart(List* list, int data)
 {
+    if (checkListExist(list))
+    {
+        return NULL;
+    }
+
     Node* new_node = (Node*)malloc(sizeof(Node));
     if (!new_node)
     {
@@ -158,8 +169,13 @@ Node* ListAddStart(List* list, int data)
     return new_node;
 }
 
-Node* ListAddAfter(List* list, int data, int num_after)
+Node* listAddAfter(List* list, int data, int num_after)
 {
+    if (checkListExist(list))
+    {
+        return NULL;
+    }
+
     Node* current = list->head;
     while (current->data != num_after)
     {
@@ -209,8 +225,13 @@ Node* ListAddAfter(List* list, int data, int num_after)
     return new_node;
 }
 
-Node* DeleteListEnd(List* list)
+Node* deleteListEnd(List* list)
 {
+    if (checkListExist(list) || list->size == 0)
+    {
+        return NULL;
+    }
+
     Node* tmp_node = list->end;
     Node* deleting = tmp_node;
 
@@ -230,8 +251,13 @@ Node* DeleteListEnd(List* list)
     return tmp_node;
 }
 
-Node* DeleteListHead(List* list)
+Node* deleteListHead(List* list)
 {
+    if (checkListExist(list) || list->size == 0)
+    {
+        return NULL;
+    }
+
     Node* tmp_node = list->head;
 
     Node* tmp_ptr = list->end;
@@ -252,9 +278,13 @@ Node* DeleteListHead(List* list)
     return list->head;
 }
 
-Node* DeleteListData(List* list, int data)
+Node* deleteListData(List* list, int data)
 {
-    if (FindNode(list, data) == NULL)
+    if (checkListExist(list) || list->size == 0)
+    {
+        return NULL;
+    }
+    else if (findNode(list, data) == NULL)
     {
         return NULL;
     }
@@ -264,11 +294,11 @@ Node* DeleteListData(List* list, int data)
 
     if (data == list->head->data)
     {
-        list->head = DeleteListHead(list);
+        list->head = deleteListHead(list);
     }
     else if (data == list->end->data)
     {
-        DeleteListEnd(list);
+        deleteListEnd(list);
     }
     else
     {
@@ -285,26 +315,31 @@ Node* DeleteListData(List* list, int data)
     return list->head;
 }
 
-List* DeleteList(List* list)
+List* deleteList(List* list)
 {
+    if (checkListExist(list))
+    {
+        return NULL;
+    }
+
     while (list->size != 0)
     {
-        list->head = DeleteListHead(list);
+        list->head = deleteListHead(list);
     }
     free(list);
     return NULL;
 }
 
-Node* FindNode(List* list, int data)
+Node* findNode(List* list, int data)
 {
-    if (list->head == NULL)
+    if (checkListExist(list))
     {
         return NULL;
     }
 
     Node* tmp_ptr = list->head;
 
-    while (tmp_ptr->next != NULL)
+    while (tmp_ptr != NULL)
     {
         if (tmp_ptr->data == data)
         {
@@ -315,9 +350,9 @@ Node* FindNode(List* list, int data)
     return NULL;
 }
 
-void PrintList(List* list)
+void printList(List* list)
 {
-    if (list == NULL)
+    if (checkListExist(list))
     {
         return;
     }
@@ -331,9 +366,9 @@ void PrintList(List* list)
     }
 }
 
-int ListLength(List* list)
+int listLength(List* list)
 {
-    if (list == NULL)
+    if (checkListExist(list))
     {
         return -1;
     }
@@ -348,4 +383,16 @@ int ListLength(List* list)
     }
 
     return count;
+}
+
+bool checkListExist(List* list)
+{
+    if (list == NULL)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
 }
