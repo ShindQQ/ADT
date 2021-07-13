@@ -46,6 +46,12 @@ int main()
 
 	addNode(list, 2);
 	addNode(list, 20);
+
+	list->head = deleteListHead(list);
+	list->head = deleteListHead(list);
+
+	list->head = deleteListHead(list);
+	list->head = deleteListHead(list);
 	printList(list);
 	printf("List end: %d\n", list->end->data);
 	printf("Size of list: %d, Function size of list: %d;\n", list->size, listLength(list));
@@ -288,7 +294,7 @@ Node* findNode(List* list, int data)
 
 void printList(List* list)
 {
-	if (checkListExist(list))
+	if (checkListExist(list) || list->size == 0)
 	{
 		return;
 	}

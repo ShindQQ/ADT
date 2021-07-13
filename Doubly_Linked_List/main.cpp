@@ -352,7 +352,7 @@ Node* findNode(List* list, int data)
 
 void printList(List* list)
 {
-    if (checkListExist(list))
+    if (checkListExist(list) || list->size == 0)
     {
         return;
     }

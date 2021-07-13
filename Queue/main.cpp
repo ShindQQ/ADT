@@ -38,6 +38,11 @@ int main()
     addQueue(queue, 1);
     addQueue(queue, 2);
 
+    printQueue(queue);
+    printf("Queue end: %d\n", queue->end->data);
+    printf("Size of queue: %d, Function size of list: %d;\n", queue->size, queueLength(queue));
+    puts("");
+
     printf("Deleted data from head: %d;\n", deleteQueueHead(queue));
     printQueue(queue);
     printf("Queue end: %d\n", queue->end->data);
@@ -137,7 +142,7 @@ Queue* deleteQueue(Queue* queue)
 
 void printQueue(Queue* queue)
 {
-    if (checkQueueExist(queue))
+    if (checkQueueExist(queue) || queue->size == 0)
     {
         return;
     }
