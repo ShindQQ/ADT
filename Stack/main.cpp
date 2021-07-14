@@ -27,6 +27,7 @@ Stack* deleteStack(Stack* stack);
 void printStack(Stack* stack);
 int stackLength(Stack* stack);
 bool checkStackExist(Stack* stack);
+Stack* reverseStack(Stack* stack);
 
 int main()
 {
@@ -40,6 +41,13 @@ int main()
 	printStack(stack);
 	printf("Stack top: %d\n", stack->top->data);
 	printf("Size of stack: %d, Function size of list: %d;\n", stack->size, stackLength(stack));
+	puts("");
+
+	reverseStack(stack);
+	printf("Reversed Stack:\n");
+	printStack(stack);
+	printf("Stack top: %d\n", stack->top->data);
+	printf("Size of queue: %d, Function size of list: %d;\n", stack->size, stackLength(stack));
 	puts("");
 
 	printf("Deleted data from head: %d;\n", deleteStackTop(stack));
@@ -177,4 +185,28 @@ bool checkStackExist(Stack* stack)
 	{
 		return 0;
 	}
+}
+
+Stack* reverseStack(Stack* stack)
+{
+	if (checkStackExist(stack))
+	{
+		return NULL;
+	}
+
+	Node* previous_node = NULL;
+	Node* current_node = stack->top;
+	Node* next_node = NULL;
+
+	while (current_node != NULL)
+	{
+		next_node = current_node->next;
+		current_node->next = previous_node;
+		previous_node = current_node;
+		current_node = next_node;
+	}
+
+	stack->top = previous_node;
+
+	return stack;
 }

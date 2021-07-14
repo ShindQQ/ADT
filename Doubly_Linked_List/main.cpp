@@ -34,6 +34,7 @@ Node* findNode(List* list, int data);
 void printList(List* list);
 int listLength(List* list);
 bool checkListExist(List* list);
+List* reverseDoublyLinkedList(List* list);
 
 int main()
 {
@@ -57,6 +58,13 @@ int main()
     puts("");
 
     list->head = listAddStart(list, 10);
+    printList(list);
+    printf("List end: %d\n", list->end->data);
+    printf("Size of list: %d, Function size of list: %d;\n", list->size, listLength(list));
+    puts("");
+
+    reverseDoublyLinkedList(list);
+    printf("Reversed List:\n");
     printList(list);
     printf("List end: %d\n", list->end->data);
     printf("Size of list: %d, Function size of list: %d;\n", list->size, listLength(list));
@@ -105,6 +113,7 @@ List* createList(int data)
     new_list->size = 1;
     new_list->head = new_node;
     new_list->end = new_list->head;
+
     return new_list;
 }
 
@@ -130,12 +139,15 @@ Node* listAddEnd(List* list, int data)
     tmp_last->next = new_node;
     new_node->next = tmp_ptr;
     new_node->previous = tmp_last;
+
     if (tmp_ptr != NULL)
     {
         tmp_ptr->previous = new_node;
     }
+
     list->size++;
     list->end = new_node;
+
     return new_node;
 }
 
@@ -163,9 +175,11 @@ Node* listAddStart(List* list, int data)
     {
         list->head->previous = new_node;
         new_node->next = list->head;
+        new_node->previous = NULL;
     }
 
     list->size++;
+
     return new_node;
 }
 
@@ -221,7 +235,9 @@ Node* listAddAfter(List* list, int data, int num_after)
     {
         list->end = new_node;
     }
+
     list->size++;
+
     return new_node;
 }
 
@@ -245,9 +261,12 @@ Node* deleteListEnd(List* list)
     }
 
     tmp_node = tmp_node->previous;
+
     list->size--;
     list->end = tmp_node;
+
     free(deleting);
+
     return tmp_node;
 }
 
@@ -275,6 +294,7 @@ Node* deleteListHead(List* list)
     list->size--;
 
     free(tmp_node);
+
     return list->head;
 }
 
@@ -312,6 +332,7 @@ Node* deleteListData(List* list, int data)
         free(tmp_node);
         list->size--;
     }
+
     return list->head;
 }
 
@@ -326,7 +347,9 @@ List* deleteList(List* list)
     {
         list->head = deleteListHead(list);
     }
+
     free(list);
+
     return NULL;
 }
 
@@ -347,6 +370,7 @@ Node* findNode(List* list, int data)
         }
         tmp_ptr = tmp_ptr->next;
     }
+
     return NULL;
 }
 
@@ -395,4 +419,33 @@ bool checkListExist(List* list)
     {
         return 0;
     }
+}
+
+List* reverseDoublyLinkedList(List* list)
+{
+    if (checkListExist(list))
+    {
+        return NULL;
+    }
+
+    Node* temp_node = NULL;
+    Node* current_node = list->head;
+    Node* new_tail_node = list->head;
+
+    while (current_node != NULL)
+    {
+        temp_node = current_node->previous;
+        current_node->previous = current_node->next;
+        current_node->next = temp_node;
+        current_node = current_node->previous;
+    }
+
+    if (temp_node != NULL)
+    {
+        list->head = temp_node->previous;
+    }
+
+    list->end = new_tail_node;
+
+    return list;
 }

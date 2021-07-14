@@ -33,6 +33,7 @@ Node* findNode(List* list, int data);
 void printList(List* list);
 int listLength(List* list);
 bool checkListExist(List* list);
+List* reverseList(List* list);
 
 int main()
 {
@@ -64,6 +65,13 @@ int main()
 
     listAddAfter(list, 5, 3);
 
+    printList(list);
+    printf("List end: %d\n", list->end->data);
+    printf("Size of list: %d, Function size of list: %d;\n", list->size, listLength(list));
+    puts("");
+
+    reverseList(list);
+    printf("Reversed List:\n");
     printList(list);
     printf("List end: %d\n", list->end->data);
     printf("Size of list: %d, Function size of list: %d;\n", list->size, listLength(list));
@@ -231,8 +239,11 @@ Node* deleteListHead(List* list)
     }
 
     Node* tmp_head = list->head->next;
+
     free(list->head);
+
     list->size--;
+
     return tmp_head;
 }
 
@@ -298,6 +309,7 @@ Node* deleteListData(List* list, int data)
         free(tmp_node);
         list->size--;
     }
+
     return list->head;
 }
 
@@ -312,6 +324,7 @@ List* deleteList(List* list)
     {
         list->head = deleteListEnd(list);
     }
+
     free(list);
 
     return NULL;
@@ -334,6 +347,7 @@ Node* findNode(List* list, int data)
         }
         tmp_ptr = tmp_ptr->next;
     }
+
     return NULL;
 }
 
@@ -382,4 +396,30 @@ bool checkListExist(List* list)
     {
         return 0;
     }
+}
+
+List* reverseList(List* list)
+{
+    if (checkListExist(list))
+    {
+        return NULL;
+    }
+
+    Node* previous_node = NULL;
+    Node* current_node = list->head;
+    Node* next_node = NULL;
+    Node* new_tail_node = list->head;
+
+    while (current_node != NULL)
+    {
+        next_node = current_node->next;
+        current_node->next = previous_node;
+        previous_node = current_node;
+        current_node = next_node;
+    }
+
+    list->head = previous_node;
+    list->end = new_tail_node;
+
+    return list;
 }

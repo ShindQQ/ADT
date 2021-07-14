@@ -32,6 +32,7 @@ Node* findNode(List* list, int data);
 void printList(List* list);
 int listLength(List* list);
 bool checkListExist(List* list);
+List* reverseCycledList(List* list);
 
 int main()
 {
@@ -48,10 +49,6 @@ int main()
 	addNode(list, 20);
 
 	list->head = deleteListHead(list);
-	list->head = deleteListHead(list);
-
-	list->head = deleteListHead(list);
-	list->head = deleteListHead(list);
 	printList(list);
 	printf("List end: %d\n", list->end->data);
 	printf("Size of list: %d, Function size of list: %d;\n", list->size, listLength(list));
@@ -66,6 +63,13 @@ int main()
 	printf("Size of list: %d, Function size of list: %d;\n", list->size, listLength(list));
 	puts("");
 
+	reverseCycledList(list);
+	printf("Reversed List:\n");
+	printList(list);
+	printf("List end: %d\n", list->end->data);
+	printf("Size of list: %d, Function size of list: %d;\n", list->size, listLength(list));
+	puts("");
+
 	list->head = deleteListHead(list);
 	printList(list);
 	printf("List end: %d\n", list->end->data);
@@ -73,14 +77,12 @@ int main()
 	puts("");
 
 	deleteListEnd(list);
-	list->head = deleteListData(list, 2);
+	deleteListData(list, 2);
 
 	printList(list);
 	printf("List end: %d\n", list->end->data);
 	printf("Size of list: %d, Function size of list: %d;\n", list->size, listLength(list));
 	puts("");
-	list->head = deleteListHead(list);
-	list->head = deleteListHead(list);
 	list = deleteList(list);
 	printList(list);
 	if (list != NULL)
@@ -172,6 +174,7 @@ Node* addInList(List* list, int data, int position)
 	{
 		list->end = new_node;
 	}
+
 	list->size++;
 
 	return new_node;
@@ -186,8 +189,10 @@ Node* deleteListHead(List* list)
 
 	Node* tmp_head = list->head->next;
 	free(list->head);
+
 	list->size--;
 	list->end->next = tmp_head;
+
 	return tmp_head;
 }
 
@@ -253,6 +258,7 @@ Node* deleteListData(List* list, int data)
 		free(tmp_node);
 		list->size--;
 	}
+
 	return list->head;
 }
 
@@ -267,6 +273,7 @@ List* deleteList(List* list)
 	{
 		list->head = deleteListEnd(list);
 	}
+
 	free(list);
 
 	return NULL;
@@ -279,16 +286,22 @@ Node* findNode(List* list, int data)
 		return NULL;
 	}
 
-	Node* tmp_ptr = list->head;
+	if (list->head->data == data)
+	{
+		return list->head;
+	}
 
+	Node* tmp_ptr = list->head;
+	
 	while (tmp_ptr->next != list->head)
 	{
-		if (tmp_ptr->data == data)
+		if (tmp_ptr->next->data == data)
 		{
 			return tmp_ptr;
 		}
 		tmp_ptr = tmp_ptr->next;
 	}
+
 	return NULL;
 }
 
@@ -337,4 +350,31 @@ bool checkListExist(List* list)
 	{
 		return 0;
 	}
+}
+
+List* reverseCycledList(List* list)
+{
+	if (checkListExist(list))
+	{
+		return NULL;
+	} 
+
+	Node* previous_node = NULL;
+	Node* current_node = list->head;
+	Node* next_node = NULL;
+	Node* new_tail_node = list->head;
+
+	do
+	{
+		next_node = current_node->next;
+		current_node->next = previous_node;
+		previous_node = current_node;
+		current_node = next_node;
+	} while (current_node != list->head);
+
+	list->head->next = previous_node;
+	list->head = previous_node;
+	list->end = new_tail_node;
+
+	return list;
 }

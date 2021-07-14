@@ -28,6 +28,7 @@ Queue* deleteQueue(Queue* queue);
 void printQueue(Queue* queue);
 int queueLength(Queue* queue);
 bool checkQueueExist(Queue* queue);
+Queue* reverseQueue(Queue* queue);
 
 int main()
 {
@@ -38,6 +39,13 @@ int main()
     addQueue(queue, 1);
     addQueue(queue, 2);
 
+    printQueue(queue);
+    printf("Queue end: %d\n", queue->end->data);
+    printf("Size of queue: %d, Function size of list: %d;\n", queue->size, queueLength(queue));
+    puts("");
+
+    reverseQueue(queue);
+    printf("Reversed Queue:\n");
     printQueue(queue);
     printf("Queue end: %d\n", queue->end->data);
     printf("Size of queue: %d, Function size of list: %d;\n", queue->size, queueLength(queue));
@@ -135,6 +143,7 @@ Queue* deleteQueue(Queue* queue)
     {
         deleteQueueHead(queue);
     }
+
     free(queue);
 
     return NULL;
@@ -185,4 +194,30 @@ bool checkQueueExist(Queue* queue)
     {
         return 0;
     }
+}
+
+Queue* reverseQueue(Queue* queue)
+{
+    if (checkQueueExist(queue))
+    {
+        return NULL;
+    }
+
+    Node* previous_node = NULL;
+    Node* current_node = queue->head;
+    Node* next_node = NULL;
+    Node* new_tail_node = queue->head;
+
+    while (current_node != NULL)
+    {
+        next_node = current_node->next;
+        current_node->next = previous_node;
+        previous_node = current_node;
+        current_node = next_node;
+    }
+
+    queue->head = previous_node;
+    queue->end = new_tail_node;
+
+    return queue;
 }
