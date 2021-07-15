@@ -18,7 +18,7 @@ struct SearchTree
 	int size;
 	Node* root;
 };
-
+// 
 SearchTree* createSearchTree();
 Node* addSearchTree(SearchTree* tree, Node* sub_tree, int data, int key);
 int calculateHeightSearchTree(Node* tree);
