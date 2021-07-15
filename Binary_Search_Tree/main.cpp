@@ -80,10 +80,13 @@ int main()
 		tree = NULL;
 	}
 
-	printf("LRNTravers:\n");
-	LRNTravers(tree->root);
-	printf("\tSize of tree: %d;\n", tree->size);
-	puts("");
+	if (tree)
+	{
+		printf("LRNTravers:\n");
+		LRNTravers(tree->root);
+		printf("\tSize of tree: %d;\n", tree->size);
+		puts("");
+	}
 
 	return 0;
 }
