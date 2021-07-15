@@ -31,20 +31,7 @@ void BFTTravers(Node* tree);
 Node* findMinNodeSearchTree(Node* tree);
 Node* deleteDataByKeySearchTree(SearchTree* tree, Node* root, int key);
 Node* findNodeByKeySearchTree(Node* tree, int key);
-
-bool deleteSearchTree(Node* root)
-{
-	if (root) {
-		deleteSearchTree(root->left);
-		deleteSearchTree(root->right);
-		free(root);
-		return 0;
-	}
-	else
-	{
-		return 1;
-	}
-}
+bool deleteSearchTree(Node* root);
 
 int main()
 {
@@ -324,5 +311,19 @@ Node* findNodeByKeySearchTree(Node* tree, int key)
 	else if (tree->key < key)
 	{
 		return findNodeByKeySearchTree(tree->right, key);
+	}
+}
+
+bool deleteSearchTree(Node* root)
+{
+	if (root) {
+		deleteSearchTree(root->left);
+		deleteSearchTree(root->right);
+		free(root);
+		return 0;
+	}
+	else
+	{
+		return 1;
 	}
 }
