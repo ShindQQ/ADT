@@ -37,6 +37,7 @@ int main()
 {
 	SearchTree* tree = NULL;
 	tree = createSearchTree();
+
 	addSearchTree(tree, tree->root, 5, 5);
 	addSearchTree(tree, tree->root, 3, 3);
 	addSearchTree(tree, tree->root, 2, 2);

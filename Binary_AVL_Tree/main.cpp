@@ -149,6 +149,7 @@ Node* addAVLTree(AVLTree* tree, Node* sub_tree, int data, int key)
 	{
 		sub_tree->right = addAVLTree(tree, sub_tree->right, data, key);
 	}
+
 	return balancingAVLTree(sub_tree);
 }
 
@@ -160,27 +161,35 @@ int balanceFactorAVLTree(Node* root)
 Node* rotate_rightBalancingAVLTree(Node* root)
 {
 	Node* temp_node = root->left;
+
 	root->left = temp_node->right;
 	temp_node->right = root;
+
 	calculateHeightAVLTree(root);
 	calculateHeightAVLTree(temp_node);
+
 	return temp_node;
 }
 
 Node* rotate_leftBalancingAVLTree(Node* root)
 {
 	Node* temp_node = root->right;
+
 	root->right = temp_node->left;
 	temp_node->left = root;
+
 	calculateHeightAVLTree(root);
 	calculateHeightAVLTree(temp_node);
+
 	return temp_node;
 }
 
 Node* balancingAVLTree(Node* root)
 {
 	calculateHeightAVLTree(root);
+
 	int balance_factor = balanceFactorAVLTree(root);
+
 	if (balance_factor == 2)
 	{
 		if (balanceFactorAVLTree(root->right) < 0)
@@ -252,6 +261,7 @@ Node* deleteDataByKeyAVLTree(AVLTree* tree, Node* root, int key)
 
 		return balancingAVLTree(min_node);
 	}
+
 	return balancingAVLTree(root);
 }
 
