@@ -120,6 +120,7 @@ Node* addSearchTree(SearchTree* tree, Node* sub_tree, int data, int key)
 		sub_tree->data = data;
 		sub_tree->key = key;
 		sub_tree->left = sub_tree->right = NULL;
+		sub_tree->height = 1;
 
 		if (tree->size == 0)
 		{
@@ -133,7 +134,6 @@ Node* addSearchTree(SearchTree* tree, Node* sub_tree, int data, int key)
 	if (sub_tree->key == key)
 	{
 		sub_tree->data = data;
-		return sub_tree;
 	}
 	else if (sub_tree->key > key)
 	{
@@ -149,8 +149,8 @@ Node* addSearchTree(SearchTree* tree, Node* sub_tree, int data, int key)
 
 int calculateHeightSearchTree(Node* tree)
 {
-	unsigned char left_height = heightSearchTree(tree->left);
-	unsigned char right_height = heightSearchTree(tree->right);
+	int left_height = heightSearchTree(tree->left);
+	int right_height = heightSearchTree(tree->right);
 
 	if (left_height > right_height)
 	{
@@ -259,11 +259,11 @@ Node* deleteDataByKeySearchTree(SearchTree* tree, Node* root, int key)
 		return NULL;
 	}
 
-	if (root->key > key)
+	if (key < root->key)
 	{
 		root->left = deleteDataByKeySearchTree(tree, root->left, key);
 	}
-	else if (root->key > key)
+	else if (key > root->key)
 	{
 		root->right = deleteDataByKeySearchTree(tree, root->right, key);
 	}
