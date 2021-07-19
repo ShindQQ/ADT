@@ -36,7 +36,6 @@ int main()
     List* list = NULL;
 
     list = createList(0);
-    srand(time(NULL));
 
     listAddEnd(list, 2);
 
@@ -135,11 +134,11 @@ Node* listAddEnd(List* list, int data)
         return NULL;
     }
 
-    Node* tmp_ptr = list->end;
+    Node* temp_ptr = list->end;
 
     new_node->data = data;
     new_node->next = NULL;
-    tmp_ptr->next = new_node;
+    temp_ptr->next = new_node;
 
     list->size++;
     list->end = new_node;
@@ -186,8 +185,8 @@ Node* listAddAfter(List* list, int data, int num_after)
 
     new_node->data = data;
 
-    Node* tmp_ptr = list->head;
-    Node* previous_tmp_node = tmp_ptr;
+    Node* temp_ptr = list->head;
+    Node* previous_tmp_node = temp_ptr;
 
     int check = 0;
     int check_end = 0;
@@ -198,24 +197,24 @@ Node* listAddAfter(List* list, int data, int num_after)
 
     do
     {
-        if (tmp_ptr->data == num_after)
+        if (temp_ptr->data == num_after)
         {
             check = 1;
         }
 
-        previous_tmp_node = tmp_ptr;
-        tmp_ptr = tmp_ptr->next;
+        previous_tmp_node = temp_ptr;
+        temp_ptr = temp_ptr->next;
 
-        if (!tmp_ptr)
+        if (!temp_ptr)
         {
             break;
         }
-    } while (previous_tmp_node->data != num_after && tmp_ptr);
+    } while (previous_tmp_node->data != num_after && temp_ptr);
 
     if (check == 1)
     {
         previous_tmp_node->next = new_node;
-        new_node->next = tmp_ptr;
+        new_node->next = temp_ptr;
 
         list->size++;
         if (check_end == 1)
@@ -234,13 +233,13 @@ Node* deleteListHead(List* list)
         return NULL;
     }
 
-    Node* tmp_head = list->head->next;
+    Node* temp_head = list->head->next;
 
     free(list->head);
 
     list->size--;
 
-    return tmp_head;
+    return temp_head;
 }
 
 Node* deleteListEnd(List* list)
@@ -250,21 +249,22 @@ Node* deleteListEnd(List* list)
         return NULL;
     }
 
-    Node* tmp_ptr = list->head;
-    Node* previous_tmp_node = tmp_ptr;
+    Node* temp_ptr = list->head;
+    Node* previous_tmp_node = temp_ptr;
+
     do
     {
-        previous_tmp_node = tmp_ptr;
-        tmp_ptr = tmp_ptr->next;
+        previous_tmp_node = temp_ptr;
+        temp_ptr = temp_ptr->next;
 
-        if (!tmp_ptr)
+        if (!temp_ptr)
         {
             break;
         }
-    } while (tmp_ptr->next != NULL);
+    } while (temp_ptr->next != NULL);
 
     previous_tmp_node->next = NULL;
-    free(tmp_ptr);
+    free(temp_ptr);
 
     list->size--;
     list->end = previous_tmp_node;
@@ -283,8 +283,8 @@ Node* deleteListData(List* list, int data)
         return NULL;
     }
 
-    Node* tmp_node = list->head;
-    Node* previous_tmp_node = tmp_node;
+    Node* temp_node = list->head;
+    Node* previous_tmp_node = temp_node;
 
     if (data == list->head->data)
     {
@@ -296,13 +296,13 @@ Node* deleteListData(List* list, int data)
     }
     else
     {
-        while (tmp_node->data != data)
+        while (temp_node->data != data)
         {
-            previous_tmp_node = tmp_node;
-            tmp_node = tmp_node->next;
+            previous_tmp_node = temp_node;
+            temp_node = temp_node->next;
         }
-        previous_tmp_node->next = tmp_node->next;
-        free(tmp_node);
+        previous_tmp_node->next = temp_node->next;
+        free(temp_node);
         list->size--;
     }
 
@@ -333,15 +333,15 @@ Node* findNode(List* list, int data)
         return NULL;
     }
 
-    Node* tmp_ptr = list->head;
+    Node* temp_ptr = list->head;
 
-    while (tmp_ptr != NULL)
+    while (temp_ptr != NULL)
     {
-        if (tmp_ptr->data == data)
+        if (temp_ptr->data == data)
         {
-            return tmp_ptr;
+            return temp_ptr;
         }
-        tmp_ptr = tmp_ptr->next;
+        temp_ptr = temp_ptr->next;
     }
 
     return NULL;
@@ -370,12 +370,12 @@ int listLength(List* list)
         return -1;
     }
 
-    Node* tmp_ptr = list->head;
+    Node* temp_ptr = list->head;
     int count = 0;
 
-    while (tmp_ptr != NULL)
+    while (temp_ptr != NULL)
     {
-        tmp_ptr = tmp_ptr->next;
+        temp_ptr = temp_ptr->next;
         count++;
     }
 

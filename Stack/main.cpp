@@ -111,10 +111,10 @@ int deleteStackTop(Stack* stack)
 	}
 
 	int data_from_top = stack->top->data;
-	Node* tmp_deleting = stack->top;
+	Node* temp_deleting = stack->top;
 
 	stack->top = stack->top->next;
-	free(tmp_deleting);
+	free(temp_deleting);
 	stack->size--;
 
 	return data_from_top;
@@ -159,14 +159,14 @@ int stackLength(Stack* stack)
 		return -1;
 	}
 
-	Node* tmp_ptr = stack->top;
+	Node* temp_ptr = stack->top;
 	int count = 0;
 
 	do
 	{
-		tmp_ptr = tmp_ptr->next;
+		temp_ptr = temp_ptr->next;
 		count++;
-	} while (tmp_ptr != NULL);
+	} while (temp_ptr != NULL);
 
 	return count;
 }

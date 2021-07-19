@@ -119,10 +119,10 @@ int deleteQueueHead(Queue* queue)
     }
 
     int data_from_head = queue->head->data;
-    Node* tmp_deleting = queue->head;
+    Node* temp_deleting = queue->head;
 
     queue->head = queue->head->next;
-    free(tmp_deleting);
+    free(temp_deleting);
     queue->size--;
 
     return data_from_head;
@@ -168,14 +168,14 @@ int queueLength(Queue* queue)
         return -1;
     }
 
-    Node* tmp_ptr = queue->head;
+    Node* temp_ptr = queue->head;
     int count = 0;
 
     do
     {
-        tmp_ptr = tmp_ptr->next;
+        temp_ptr = temp_ptr->next;
         count++;
-    } while (tmp_ptr != NULL);
+    } while (temp_ptr != NULL);
 
     return count;
 }

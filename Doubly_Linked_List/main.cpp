@@ -129,16 +129,16 @@ Node* listAddEnd(List* list, int data)
 
     new_node->data = data;
 
-    Node* tmp_last = list->end;
+    Node* temp_last = list->end;
+    Node* temp_ptr = temp_last->next;
 
-    Node* tmp_ptr = tmp_last->next;
-    tmp_last->next = new_node;
-    new_node->next = tmp_ptr;
-    new_node->previous = tmp_last;
+    temp_last->next = new_node;
+    new_node->next = temp_ptr;
+    new_node->previous = temp_last;
 
-    if (tmp_ptr != NULL)
+    if (temp_ptr != NULL)
     {
-        tmp_ptr->previous = new_node;
+        temp_ptr->previous = new_node;
     }
 
     list->size++;
@@ -197,7 +197,7 @@ Node* listAddAfter(List* list, int data, int num_after)
         current = current->next;
     }
 
-    Node* tmp_ptr = list->end;
+    Node* temp_ptr = list->end;
 
     Node* new_node = (Node*)malloc(sizeof(Node));
     if (!new_node)
@@ -207,10 +207,10 @@ Node* listAddAfter(List* list, int data, int num_after)
     }
     new_node->data = data;
 
-    if (current == tmp_ptr)
+    if (current == temp_ptr)
     {
         new_node->next = NULL;
-        tmp_ptr = new_node;
+        temp_ptr = new_node;
     }
     else
     {
@@ -244,8 +244,8 @@ Node* deleteListEnd(List* list)
         return NULL;
     }
 
-    Node* tmp_node = list->end;
-    Node* deleting = tmp_node;
+    Node* temp_node = list->end;
+    Node* deleting = temp_node;
 
     if (list->head->next == NULL)
     {
@@ -253,17 +253,17 @@ Node* deleteListEnd(List* list)
     }
     else
     {
-        tmp_node->previous->next = NULL;
+        temp_node->previous->next = NULL;
     }
 
-    tmp_node = tmp_node->previous;
+    temp_node = temp_node->previous;
 
     list->size--;
-    list->end = tmp_node;
+    list->end = temp_node;
 
     free(deleting);
 
-    return tmp_node;
+    return temp_node;
 }
 
 Node* deleteListHead(List* list)
@@ -273,13 +273,12 @@ Node* deleteListHead(List* list)
         return NULL;
     }
 
-    Node* tmp_node = list->head;
-
-    Node* tmp_ptr = list->end;
+    Node* temp_node = list->head;
+    Node* temp_ptr = list->end;
 
     if (list->head->next == NULL)
     {
-        tmp_ptr = NULL;
+        temp_ptr = NULL;
     }
     else
     {
@@ -289,7 +288,7 @@ Node* deleteListHead(List* list)
     list->head = list->head->next;
     list->size--;
 
-    free(tmp_node);
+    free(temp_node);
 
     return list->head;
 }
@@ -305,8 +304,8 @@ Node* deleteListData(List* list, int data)
         return NULL;
     }
 
-    Node* tmp_node = list->head;
-    Node* previous_tmp_node = tmp_node;
+    Node* temp_node = list->head;
+    Node* previous_tmp_node = temp_node;
 
     if (data == list->head->data)
     {
@@ -318,14 +317,14 @@ Node* deleteListData(List* list, int data)
     }
     else
     {
-        while (tmp_node->data != data)
+        while (temp_node->data != data)
         {
-            previous_tmp_node = tmp_node;
-            tmp_node = tmp_node->next;
+            previous_tmp_node = temp_node;
+            temp_node = temp_node->next;
         }
-        previous_tmp_node->next = tmp_node->next;
-        tmp_node->next->previous = previous_tmp_node;
-        free(tmp_node);
+        previous_tmp_node->next = temp_node->next;
+        temp_node->next->previous = previous_tmp_node;
+        free(temp_node);
         list->size--;
     }
 
@@ -356,15 +355,15 @@ Node* findNode(List* list, int data)
         return NULL;
     }
 
-    Node* tmp_ptr = list->head;
+    Node* temp_ptr = list->head;
 
-    while (tmp_ptr != NULL)
+    while (temp_ptr != NULL)
     {
-        if (tmp_ptr->data == data)
+        if (temp_ptr->data == data)
         {
-            return tmp_ptr;
+            return temp_ptr;
         }
-        tmp_ptr = tmp_ptr->next;
+        temp_ptr = temp_ptr->next;
     }
 
     return NULL;
@@ -393,12 +392,12 @@ int listLength(List* list)
         return -1;
     }
 
-    Node* tmp_ptr = list->head;
+    Node* temp_ptr = list->head;
     int count = 0;
 
-    while (tmp_ptr != NULL)
+    while (temp_ptr != NULL)
     {
-        tmp_ptr = tmp_ptr->next;
+        temp_ptr = temp_ptr->next;
         count++;
     }
 

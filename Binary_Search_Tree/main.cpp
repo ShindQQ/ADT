@@ -20,7 +20,7 @@ struct SearchTree
 };
 
 SearchTree* createSearchTree();
-Node* addSearchTree(SearchTree* tree, Node* sub_tree, int data, int key);
+Node* insertSearchTree(SearchTree* tree, Node* sub_tree, int data, int key);
 int calculateHeightSearchTree(Node* tree);
 int heightSearchTree(Node* tree);
 void NLRTravers(Node* tree);
@@ -38,13 +38,13 @@ int main()
 	SearchTree* tree = NULL;
 	tree = createSearchTree();
 
-	addSearchTree(tree, tree->root, 5, 5);
-	addSearchTree(tree, tree->root, 3, 3);
-	addSearchTree(tree, tree->root, 2, 2);
-	addSearchTree(tree, tree->root, 4, 4);
-	addSearchTree(tree, tree->root, 7, 7);
-	addSearchTree(tree, tree->root, 6, 6);
-	addSearchTree(tree, tree->root, 8, 8);
+	insertSearchTree(tree, tree->root, 5, 5);
+	insertSearchTree(tree, tree->root, 3, 3);
+	insertSearchTree(tree, tree->root, 2, 2);
+	insertSearchTree(tree, tree->root, 4, 4);
+	insertSearchTree(tree, tree->root, 7, 7);
+	insertSearchTree(tree, tree->root, 6, 6);
+	insertSearchTree(tree, tree->root, 8, 8);
 
 	printf("NLRTravers:\n");
 	NLRTravers(tree->root);
@@ -107,7 +107,7 @@ SearchTree* createSearchTree()
 	return new_tree;
 }
 
-Node* addSearchTree(SearchTree* tree, Node* sub_tree, int data, int key)
+Node* insertSearchTree(SearchTree* tree, Node* sub_tree, int data, int key)
 {
 	if (!sub_tree)
 	{
@@ -138,11 +138,11 @@ Node* addSearchTree(SearchTree* tree, Node* sub_tree, int data, int key)
 	}
 	else if (sub_tree->key > key)
 	{
-		sub_tree->left = addSearchTree(tree, sub_tree->left, data, key);
+		sub_tree->left = insertSearchTree(tree, sub_tree->left, data, key);
 	}
 	else
 	{
-		sub_tree->right = addSearchTree(tree, sub_tree->right, data, key);
+		sub_tree->right = insertSearchTree(tree, sub_tree->right, data, key);
 	}
 
 	return sub_tree;
@@ -243,14 +243,14 @@ void BFTTravers(Node* tree)
 
 Node* findMinNodeSearchTree(Node* tree)
 {
-	Node* tmp_node = tree;
+	Node* temp_node = tree;
 
-	while (tmp_node->left != NULL)
+	while (temp_node->left != NULL)
 	{
-		tmp_node = tmp_node->left;
+		temp_node = temp_node->left;
 	}
 
-	return tmp_node;
+	return temp_node;
 }
 
 Node* deleteDataByKeySearchTree(SearchTree* tree, Node* root, int key)

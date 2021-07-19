@@ -20,7 +20,7 @@ struct AVLTree
 };
 
 AVLTree* createAVLTree();
-Node* addAVLTree(AVLTree* tree, Node* sub_tree, int data, int key);
+Node* insertAVLTree(AVLTree* tree, Node* sub_tree, int data, int key);
 int balanceFactorAVLTree(Node* root);
 Node* rotate_rightBalancingAVLTree(Node* root);
 Node* rotate_leftBalancingAVLTree(Node* root);
@@ -43,13 +43,13 @@ int main()
 	AVLTree* tree = NULL;
 	tree = createAVLTree();
 
-	tree->root = addAVLTree(tree, tree->root, 0, 0);
-	tree->root = addAVLTree(tree, tree->root, 1, 1);
-	tree->root = addAVLTree(tree, tree->root, 2, 2);
-	tree->root = addAVLTree(tree, tree->root, 3, 3);
-	tree->root = addAVLTree(tree, tree->root, 4, 4);
-	tree->root = addAVLTree(tree, tree->root, 5, 5);
-	tree->root = addAVLTree(tree, tree->root, 6, 6);
+	tree->root = insertAVLTree(tree, tree->root, 0, 0);
+	tree->root = insertAVLTree(tree, tree->root, 1, 1);
+	tree->root = insertAVLTree(tree, tree->root, 2, 2);
+	tree->root = insertAVLTree(tree, tree->root, 3, 3);
+	tree->root = insertAVLTree(tree, tree->root, 4, 4);
+	tree->root = insertAVLTree(tree, tree->root, 5, 5);
+	tree->root = insertAVLTree(tree, tree->root, 6, 6);
 
 	printf("NLRTravers:\n");
 	NLRTravers(tree->root);
@@ -112,7 +112,7 @@ AVLTree* createAVLTree()
 	return new_tree;
 }
 
-Node* addAVLTree(AVLTree* tree, Node* sub_tree, int data, int key)
+Node* insertAVLTree(AVLTree* tree, Node* sub_tree, int data, int key)
 {
 	if (!sub_tree)
 	{
@@ -143,11 +143,11 @@ Node* addAVLTree(AVLTree* tree, Node* sub_tree, int data, int key)
 	}
 	else if (sub_tree->key > key)
 	{
-		sub_tree->left = addAVLTree(tree, sub_tree->left, data, key);
+		sub_tree->left = insertAVLTree(tree, sub_tree->left, data, key);
 	}
 	else
 	{
-		sub_tree->right = addAVLTree(tree, sub_tree->right, data, key);
+		sub_tree->right = insertAVLTree(tree, sub_tree->right, data, key);
 	}
 
 	return balancingAVLTree(sub_tree);
