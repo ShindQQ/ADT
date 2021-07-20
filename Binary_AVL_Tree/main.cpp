@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
+#include <time.h>
 
 struct Node
 {
@@ -43,6 +44,8 @@ int main()
 	AVLTree* tree = NULL;
 	tree = createAVLTree();
 
+	clock_t begin = clock();
+
 	tree->root = insertAVLTree(tree, tree->root, 0, 0);
 	tree->root = insertAVLTree(tree, tree->root, 1, 1);
 	tree->root = insertAVLTree(tree, tree->root, 2, 2);
@@ -50,6 +53,12 @@ int main()
 	tree->root = insertAVLTree(tree, tree->root, 4, 4);
 	tree->root = insertAVLTree(tree, tree->root, 5, 5);
 	tree->root = insertAVLTree(tree, tree->root, 6, 6);
+
+	clock_t end = clock();
+
+	double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+
+	printf("Time spent on inserting 5 nodes: %lf;\n\n", time_spent); // 0.000000
 
 	printf("NLRTravers:\n");
 	NLRTravers(tree->root);
