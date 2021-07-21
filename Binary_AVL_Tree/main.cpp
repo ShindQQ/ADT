@@ -362,7 +362,7 @@ void LRNTravers(Node* tree)
 
 void BFTTraversHelper(Node* tree, int level)
 {
-	if (tree == NULL)
+	if (!tree)
 	{
 		return;
 	}

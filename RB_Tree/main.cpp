@@ -154,14 +154,14 @@ void rotate_leftRBTree(Node*& root, Node*& node)
 	Node* temp_node = node->right;
 
 	node->right = temp_node->left;
-	if (node->right != NULL)
+	if (node->right)
 	{
 		node->right->parent = node;
 	}
 
 	temp_node->parent = node->parent;
 
-	if (node->parent == NULL)
+	if (!node->parent)
 	{
 		root = temp_node;
 	}
@@ -183,14 +183,14 @@ void rotate_rightRBTree(Node*& root, Node*& node)
 	Node* temp_node = node->left;
 
 	node->left = temp_node->right;
-	if (node->left != NULL)
+	if (node->left)
 	{
 		node->left->parent = node;
 	}
 
 	temp_node->parent = node->parent;
 
-	if (node->parent == NULL)
+	if (!node->parent)
 	{
 		root = temp_node;
 	}
@@ -246,7 +246,7 @@ void fixInsertRBTree(Node*& root, Node*& new_node)
 		{
 			Node* uncle_ptr = grand_parent_ptr->left;
 
-			if (uncle_ptr != NULL && uncle_ptr->color == RED)
+			if (uncle_ptr && uncle_ptr->color == RED)
 			{
 				grand_parent_ptr->color = RED;
 				parent_ptr->color = BLACK;
@@ -274,7 +274,7 @@ void fixInsertRBTree(Node*& root, Node*& new_node)
 
 Node* insertHelperRBTree(Node* root, Node* new_node)
 {
-	if (root == NULL)
+	if (!root)
 	{
 		return new_node;
 	}
@@ -321,7 +321,7 @@ Node* findMinNodeRBTree(Node* tree)
 {
 	Node* temp_node = tree;
 
-	while (temp_node->left != NULL)
+	while (temp_node->left)
 	{
 		temp_node = temp_node->left;
 	}
@@ -352,15 +352,15 @@ Node* findNodeByKeyRBTree(Node* tree, int key)
 
 Node* replaceNodeRBTree(Node* node)
 {
-	if (node->left != NULL && node->right != NULL)
+	if (node->left&& node->right)
 	{
 		return findMinNodeRBTree(node->right);
 	}
-	else if (node->left == NULL && node->right == NULL)
+	else if (!node->left&& !node->right)
 	{
 		return NULL;
 	}
-	else if (node->left != NULL)
+	else if (node->left)
 	{
 		return node->left;
 	}
@@ -372,7 +372,7 @@ Node* replaceNodeRBTree(Node* node)
 
 Node* checkSibling(Node* node)
 {
-	if (node->parent == NULL)
+	if (!node->parent)
 	{
 		return NULL;
 	}
@@ -396,7 +396,7 @@ void fixDoubleBlack(Node*& root, Node*& node)
 	Node* sibling = checkSibling(node);
 	Node* parent = node->parent;
 
-	if (sibling == NULL)
+	if (!sibling)
 	{
 		fixDoubleBlack(root, parent);
 	}
@@ -418,10 +418,10 @@ void fixDoubleBlack(Node*& root, Node*& node)
 		}
 		else
 		{
-			if ((sibling->left != NULL && sibling->left->color == RED) ||
-				(sibling->right != NULL && sibling->right->color == RED))
+			if ((sibling->left && sibling->left->color == RED) ||
+				(sibling->right && sibling->right->color == RED))
 			{
-				if (sibling->left != NULL && sibling->left->color == RED)
+				if (sibling->left && sibling->left->color == RED)
 				{
 					if (sibling == sibling->parent->left)
 					{
@@ -438,7 +438,7 @@ void fixDoubleBlack(Node*& root, Node*& node)
 				}
 				else
 				{
-					if (sibling->left != NULL)
+					if (sibling->left)
 					{
 						if (sibling == sibling->parent->left)
 						{
@@ -480,7 +480,7 @@ void deleteNodeRBTree(Node*& root, Node* node)
 
 	Node* parent = node->parent;
 
-	if (temp_node == NULL)
+	if (!temp_node)
 	{
 		if (node == root)
 		{
@@ -514,7 +514,7 @@ void deleteNodeRBTree(Node*& root, Node* node)
 		return;
 	}
 
-	if (node->left == NULL || node->right == NULL)
+	if (!node->left || !node->right)
 	{
 		if (node == root)
 		{
@@ -562,7 +562,7 @@ Node* deleteDataByKeyRBTree(RBTree* tree, int key)
 
 	Node* deleting = findNodeByKeyRBTree(tree->root, key);
 
-	if (deleting == NULL)
+	if (!deleting)
 	{
 		return NULL;
 	}
@@ -641,7 +641,7 @@ void LRNTravers(Node* tree)
 
 void BFTTraversHelper(Node* tree, int level)
 {
-	if (tree == NULL)
+	if (!tree)
 	{
 		return;
 	}

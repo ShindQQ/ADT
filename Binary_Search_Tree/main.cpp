@@ -215,7 +215,7 @@ void LRNTravers(Node* tree)
 
 void BFTTraversHelper(Node* tree, int level)
 {
-	if (tree == NULL)
+	if (!tree)
 	{
 		return;
 	}
@@ -245,7 +245,7 @@ Node* findMinNodeSearchTree(Node* tree)
 {
 	Node* temp_node = tree;
 
-	while (temp_node->left != NULL)
+	while (temp_node->left)
 	{
 		temp_node = temp_node->left;
 	}
