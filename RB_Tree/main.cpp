@@ -30,7 +30,7 @@ struct RBTree
 
 void swapNodesData(Node*& arg1, Node*& arg2);
 void swap(color& arg1, color& arg2);
-RBTree* createRBTree();
+RBTree* initializeRBTree();
 void rotate_leftRBTree(Node*& root, Node*& node);
 void rotate_rightRBTree(Node*& root, Node*& node);
 void fixInsertRBTree(Node*& root, Node*& new_node);
@@ -49,13 +49,13 @@ void NLRTravers(Node* tree);
 void LNRTravers(Node* tree);
 void LRNTravers(Node* tree);
 void BFTTraversHelper(Node* tree, int level);
-void BFTTravers(Node* tree);
+bool BFTTravers(Node* tree);
 bool deleteRBTree(Node* root);
 
 int main()
 {
 	RBTree* tree = NULL;
-	tree = createRBTree();
+	tree = initializeRBTree();
 
 	clock_t begin = clock();
 
@@ -134,7 +134,7 @@ void swap(color& arg1, color& arg2)
 	arg2 = temp;
 }
 
-RBTree* createRBTree()
+RBTree* initializeRBTree()
 {
 	RBTree* new_tree = (RBTree*)malloc(sizeof(RBTree));
 	if (!new_tree)
@@ -295,6 +295,11 @@ Node* insertHelperRBTree(Node* root, Node* new_node)
 
 Node* insertRBTree(RBTree* tree, int data, int key)
 {
+	if (!tree)
+	{
+		return NULL;
+	}
+
 	Node* new_node = (Node*)malloc(sizeof(Node));
 	if (!new_node)
 	{
@@ -319,6 +324,11 @@ Node* insertRBTree(RBTree* tree, int data, int key)
 
 Node* findMinNodeRBTree(Node* tree)
 {
+	if (!tree)
+	{
+		return NULL;
+	}
+
 	Node* temp_node = tree;
 
 	while (temp_node->left)
@@ -657,14 +667,21 @@ void BFTTraversHelper(Node* tree, int level)
 	}
 }
 
-void BFTTravers(Node* tree)
+bool BFTTravers(Node* tree)
 {
+	if (!tree)
+	{
+		return 1;
+	}
+
 	int height = heightRBTree(tree);
 
 	for (int i = 1; i <= height; i++)
 	{
 		BFTTraversHelper(tree, i);
 	}
+
+	return 0;
 }
 
 bool deleteRBTree(Node* root)

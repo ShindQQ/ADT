@@ -20,7 +20,7 @@ struct AVLTree
 	Node* root;
 };
 
-AVLTree* createAVLTree();
+AVLTree* initializeAVLTree();
 Node* insertAVLTree(AVLTree* tree, Node* sub_tree, int data, int key);
 int balanceFactorAVLTree(Node* root);
 Node* rotate_rightBalancingAVLTree(Node* root);
@@ -36,13 +36,13 @@ void NLRTravers(Node* tree);
 void LNRTravers(Node* tree);
 void LRNTravers(Node* tree);
 void BFTTraversHelper(Node* tree, int level);
-void BFTTravers(Node* tree);
+bool BFTTravers(Node* tree);
 bool deleteAVLTree(Node* root);
 
 int main()
 {
 	AVLTree* tree = NULL;
-	tree = createAVLTree();
+	tree = initializeAVLTree();
 
 	clock_t begin = clock();
 
@@ -106,7 +106,7 @@ int main()
 	return 0;
 }
 
-AVLTree* createAVLTree()
+AVLTree* initializeAVLTree()
 {
 	AVLTree* new_tree = (AVLTree*)malloc(sizeof(AVLTree));
 	if (!new_tree)
@@ -297,6 +297,11 @@ Node* findNodeByKeyAVLTree(Node* tree, int key)
 
 int calculateHeightAVLTree(Node* tree)
 {
+	if (!tree)
+	{
+		return -1;
+	}
+
 	int left_height = heightAVLTree(tree->left);
 	int right_height = heightAVLTree(tree->right);
 
@@ -378,14 +383,21 @@ void BFTTraversHelper(Node* tree, int level)
 	}
 }
 
-void BFTTravers(Node* tree)
+bool BFTTravers(Node* tree)
 {
+	if (!tree)
+	{
+		return 1;
+	}
+
 	int height = heightAVLTree(tree);
 
 	for (int i = 1; i <= height; i++)
 	{
 		BFTTraversHelper(tree, i);
 	}
+
+	return 0;
 }
 
 bool deleteAVLTree(Node* root)

@@ -19,7 +19,7 @@ struct SearchTree
 	Node* root;
 };
 
-SearchTree* createSearchTree();
+SearchTree* initializeSearchTree();
 Node* insertSearchTree(SearchTree* tree, Node* sub_tree, int data, int key);
 int calculateHeightSearchTree(Node* tree);
 int heightSearchTree(Node* tree);
@@ -27,7 +27,7 @@ void NLRTravers(Node* tree);
 void LNRTravers(Node* tree);
 void LRNTravers(Node* tree);
 void BFTTraversHelper(Node* tree, int level);
-void BFTTravers(Node* tree);
+bool BFTTravers(Node* tree);
 Node* findMinNodeSearchTree(Node* tree);
 Node* deleteDataByKeySearchTree(SearchTree* tree, Node* root, int key);
 Node* findNodeByKeySearchTree(Node* tree, int key);
@@ -36,7 +36,7 @@ bool deleteSearchTree(Node* root);
 int main()
 {
 	SearchTree* tree = NULL;
-	tree = createSearchTree();
+	tree = initializeSearchTree();
 
 	insertSearchTree(tree, tree->root, 5, 5);
 	insertSearchTree(tree, tree->root, 3, 3);
@@ -92,7 +92,7 @@ int main()
 	return 0;
 }
 
-SearchTree* createSearchTree()
+SearchTree* initializeSearchTree()
 {
 	SearchTree* new_tree = (SearchTree*)malloc(sizeof(SearchTree));
 	if (!new_tree)
@@ -231,14 +231,21 @@ void BFTTraversHelper(Node* tree, int level)
 	}
 }
 
-void BFTTravers(Node* tree)
+bool BFTTravers(Node* tree)
 {
+	if (!tree)
+	{
+		return 1;
+	}
+
 	int height = heightSearchTree(tree);
 
 	for (int i = 1; i <= height; i++)
 	{
 		BFTTraversHelper(tree, i);
 	}
+
+	return 0;
 }
 
 Node* findMinNodeSearchTree(Node* tree)
