@@ -21,6 +21,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RB_Tree", "RB_Tree\RB_Tree.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Chaining_Hashing", "Chaining_Hashing\Chaining_Hashing.vcxproj", "{14522E9B-1A66-4AC0-A9EC-77815AAFA79F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Hash_Table", "Hash_Table\Hash_Table.vcxproj", "{D45974D1-4F94-4245-8934-053625EA861D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -101,6 +103,14 @@ Global
 		{14522E9B-1A66-4AC0-A9EC-77815AAFA79F}.Release|x64.Build.0 = Release|x64
 		{14522E9B-1A66-4AC0-A9EC-77815AAFA79F}.Release|x86.ActiveCfg = Release|Win32
 		{14522E9B-1A66-4AC0-A9EC-77815AAFA79F}.Release|x86.Build.0 = Release|Win32
+		{D45974D1-4F94-4245-8934-053625EA861D}.Debug|x64.ActiveCfg = Debug|x64
+		{D45974D1-4F94-4245-8934-053625EA861D}.Debug|x64.Build.0 = Debug|x64
+		{D45974D1-4F94-4245-8934-053625EA861D}.Debug|x86.ActiveCfg = Debug|Win32
+		{D45974D1-4F94-4245-8934-053625EA861D}.Debug|x86.Build.0 = Debug|Win32
+		{D45974D1-4F94-4245-8934-053625EA861D}.Release|x64.ActiveCfg = Release|x64
+		{D45974D1-4F94-4245-8934-053625EA861D}.Release|x64.Build.0 = Release|x64
+		{D45974D1-4F94-4245-8934-053625EA861D}.Release|x86.ActiveCfg = Release|Win32
+		{D45974D1-4F94-4245-8934-053625EA861D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
