@@ -7,6 +7,7 @@
 
 #define FULLNESS_LIMIT 0.6
 #define EXPANSION_SIZE 10
+#define HASHING_CONST 7
 
 struct Node
 {
@@ -22,7 +23,8 @@ struct HashTable
     int deleted_elements;
 };
 
-int hashing(int key, int size);
+int hashing1(int key, int size);
+int hashing2(int key);
 HashTable* initializeHashTable(int size);
 int insertHashTable(HashTable*& table, int key, int data);
 HashTable* recizeHashTable(HashTable* table, int new_size);
@@ -70,10 +72,14 @@ int main()
     return 0;
 }
 
-int hashing(int key, int size)
+int hashing1(int key, int size)
 {
-
     return key % size;
+}
+
+int hashing2(int key)
+{
+    return abs(HASHING_CONST - (key % HASHING_CONST));
 }
 
 HashTable* initializeHashTable(int size)
@@ -109,61 +115,56 @@ int insertHashTable(HashTable*& table, int key, int data)
     if (!table)
     {
         return -2;
+
     }
+
+    int hash_index1 = hashing1(key, table->size);
 
     if ((table->fullness + table->deleted_elements + 1) >= int((double)table->size * FULLNESS_LIMIT))
     {
         table = recizeHashTable(table, table->size + EXPANSION_SIZE);
     }
 
-    int quantity = 0;
-    bool check_insertion = 1;
-    int hash_index = hashing(key, table->size);
-
-    if (table->HT[hash_index].key == INT_MIN)
+    if (table->HT[hash_index1].key == key)
     {
-        table->HT[hash_index].key = key;
-        table->HT[hash_index].data = data;
-        table->fullness++;
+        table->HT[hash_index1].data = data;
         return 0;
+    }
+
+    if (table->HT[hash_index1].key != INT_MIN)
+    {
+        int hash_index2 = hashing2(key);
+        int i = 1;
+
+        while (1) 
+        {
+
+            int found_index = (hash_index1 + i * hash_index2) % table->size;
+
+            if (table->HT[hash_index1].key == key)
+            {
+                table->HT[found_index].data = data;
+                return 0;
+            }
+            else if (table->HT[found_index].key == INT_MIN) 
+            {
+                table->HT[found_index].key = key;
+                table->HT[found_index].data = data;
+                break;
+            }
+
+            i++;
+        }
     }
     else
     {
-        if (table->HT[hash_index].key == key)
-        {
-            table->HT[hash_index].data = data;
-            return 1;
-        }
-
-        for (int i = hash_index; quantity < table->size; i = ++i % table->size) // linear probing
-        {
-            if (table->HT[i].key == INT_MIN)
-            {
-                table->HT[i].key = key;
-                table->HT[i].data = data;
-                table->fullness++;
-                return quantity;
-            }
-            quantity++;
-        }
-
-        //for (int i = hash_index; quantity < table->size; i = hash_index + (quantity * quantity)) // quadratic probing
-        //{
-        //    if (table->HT[i].key == INT_MIN)
-        //    {
-        //        table->HT[i].key = key;
-        //        table->HT[i].data = data;
-        //        table->fullness++;
-        //        return quantity;
-        //    }
-        //    quantity++; 
-        //}
+        table->HT[hash_index1].key = key;
+        table->HT[hash_index1].data = data;
     }
 
-    if (!check_insertion)
-    {
-        return -1;
-    }
+    table->fullness++;
+
+    return 0;
 }
 
 HashTable* recizeHashTable(HashTable* table, int new_size)
@@ -197,7 +198,7 @@ int deleteNodeByKeyHashTable(HashTable* table, int key)
 
     int hash_index = findNodeHashTable(table, key);
 
-    if (hash_index > -1) 
+    if (hash_index > -1)
     {
         table->HT[hash_index].key = INT_MAX;
         table->HT[hash_index].data = INT_MAX;
@@ -230,38 +231,26 @@ bool printHashTable(HashTable* table)
 
 int findNodeHashTable(HashTable* table, int key)
 {
-    if (!table)
-    {
-        return -3;
-    }
+    int hash_index1 = hashing1(key, table->size);
+    int hash_index2 = hashing2(key);
+    int i = 0;
+    int found_index = 0;
 
-    int hash_index = hashing(key, table->size);
-    bool check_find = 1;
-    int key_index;
-
-    if (table->HT[hash_index].key == key)
+    while (table->HT[found_index].key != key)
     {
-        return hash_index;
-    }
-    else
-    {
-        for (int i = hash_index + 1, quantity = 0; quantity < table->size && check_find; i = ++i % table->size, quantity++)
-        {
-            if (table->HT[i].key == key)
-            {
-                key_index = i;
-                check_find = 0;
-                return i;
-            }
-        }
+        found_index = (hash_index1 + i * hash_index2) % table->size;
 
-        if (check_find)
+        if (i > table->size)
         {
             return -1;
         }
-    }
+        else if (table->HT[found_index].key == key)
+        {
+            return found_index;
+        }
 
-    return -2;
+        i++;
+    }
 }
 
 HashTable* deleteHashTable(HashTable* table)
